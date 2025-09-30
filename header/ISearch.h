@@ -1,13 +1,14 @@
 #pragma once
-#include <vector>
+#include "STL.h"
+#include "VectorRecordList.h"
 using namespace std;
 
 class Search
 {
 private:
-    double cosine(vector<float>, vector<float>);
-    double jarcard(vector<float>, vector<float>); // tra ve do giong nhau cua 2 doi tuong bam
+    double cosine(VectorRecord, VectorRecord);  // tra ve do giong nhau cua 2 doi tuong bam
+    double jarcard(VectorRecord, VectorRecord); // tra ve do giong nhau cua 2 doi tuong bam
 
 public:
-    vector<vector<int>> classify(vector<pair<int, vector<float>>>);
+    vector<VectorRecordList> classify(VectorRecordList);
 };

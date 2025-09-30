@@ -1,9 +1,11 @@
 #pragma once
 #include "iHash.h"
+#include "VectorRecordList.h"
 
 class MinHash : public IHash
 {
 private:
 public:
-    vector<pair<int, vector<float>>> hash(vector<pair<int, vector<int>>>);
+    /// Hàm băm ( ko thay đổi )
+    VectorRecordList hash(const VectorRecordList &input);
 };
