@@ -6,6 +6,8 @@ class MinHash : public IHash
 {
 private:
 public:
+
+    //t làm cai nay
     /// Hàm băm ( ko thay đổi )
     VectorRecordList hash(const VectorRecordList &input);
 };
