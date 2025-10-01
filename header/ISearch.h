@@ -1,14 +1,14 @@
 #pragma once
 #include "STL.h"
-#include "VectorRecordList.h"
+#include "VectorRecord.h"
 using namespace std;
 
 class Search
 {
 private:
-    double cosine(VectorRecord, VectorRecord);  // tra ve do giong nhau cua 2 doi tuong bam
-    double jarcard(VectorRecord, VectorRecord); // tra ve do giong nhau cua 2 doi tuong bam
+    double hammingDistance(VectorRecord, VectorRecord);  // SimHash
+    double jarcardSimilarity(VectorRecord, VectorRecord); // MinHash
 
 public:
-    vector<VectorRecordList> classify(VectorRecordList);
+    vector<vector<VectorRecord>> classify(vector<vector<double>>);
 };

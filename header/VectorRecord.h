@@ -1,24 +1,14 @@
 #pragma once
 #include "STL.h"
 
-/*
-    Class sẽ chứa vector và id của vector
-    vector<float> data;
-    int id;
-*/
-
-class VectorRecord
+struct VectorRecord
 {
-public:
-    vector<float> data; /// Data của vector
-    int id;             /// Id của vector
-
-public:
-    VectorRecord(vector<float> data, int id) : data(data), id(id) {}
-
+    int id;
+    vector<double> vec;
+    VectorRecord(int id_, vector<double> vec_):id(id_), vec(vec_) {}
     bool operator==(const VectorRecord &other)
     {
-        return this->data == other.data && this->id == other.id;
+        return this->vec == other.vec && this->id == other.id;
     }
 
     bool operator!=(const VectorRecord &other)
@@ -29,7 +19,7 @@ public:
     /// deep copy
     VectorRecord &operator=(const VectorRecord &other)
     {
-        this->data = other.data;
+        this->vec = other.vec;
         this->id = other.id;
         return *this;
     }

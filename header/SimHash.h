@@ -1,11 +1,12 @@
 #pragma once
 #include "iHash.h"
-#include "VectorRecordList.h"
+#include "VectorRecord.h"
+
 
 class SimHash : public IHash
 {
 private:
 public:
     /// Hàm băm ( ko thay đổi )
-    VectorRecordList hash(const VectorRecordList &input);
+    vector<VectorRecord> hash(const vector<VectorRecord> &input);
 };

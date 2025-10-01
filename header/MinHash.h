@@ -1,13 +1,12 @@
 #pragma once
 #include "iHash.h"
-#include "VectorRecordList.h"
+#include "VectorRecord.h"
 
 class MinHash : public IHash
 {
 private:
 public:
 
-    //t làm cai nay
     /// Hàm băm ( ko thay đổi )
-    VectorRecordList hash(const VectorRecordList &input);
+    vector<VectorRecord> hash(const vector<VectorRecord> &input);
 };
