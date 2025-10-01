@@ -1,14 +1,14 @@
 #pragma once
 #include "STL.h"
-
+#include "VectorRecord.h"
 using namespace std;
 
 class Search
 {
 private:
-    double hammingDistance(vector<double>, vector<double>);  // SimHash
-    double jarcardSimilarity(vector<double>, vector<double>); // MinHash
+    double hammingDistance(VectorRecord, VectorRecord);  // SimHash
+    double jarcardSimilarity(VectorRecord, VectorRecord); // MinHash
 
 public:
-    vector<vector<double>> classify(vector<vector<double>>);
+    vector<vector<VectorRecord>> classify(vector<vector<double>>);
 };

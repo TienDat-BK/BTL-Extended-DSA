@@ -1,6 +1,8 @@
 #pragma once
 #include "iHash.h"
 #include "MurmurHash3.h"
+#include "VectorRecord.h"
+
 
 
 class SimHash : public IHash
@@ -9,6 +11,9 @@ private:
 public:
     /// Hàm băm ( ko thay đổi )
 
-    vector<double> hash_1(const vector<double>&); //hash a vector
-    vector<vector<double>> hash(const vector<vector<double>>&); // hash a set of vector
+
+    VectorRecord hash_1(const VectorRecord&); //hash a vector
+    vector<VectorRecord> hash(const vector<VectorRecord>&); // hash a set of vector
+
+
 };
