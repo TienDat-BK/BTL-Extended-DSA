@@ -1,6 +1,6 @@
 #pragma once
 #include "STL.h"
-#include "VectorRecordList.h"
+
 
 using namespace std;
 
@@ -11,5 +11,5 @@ private:
     int outputDim;
 
 public:
-    virtual VectorRecordList hash(const VectorRecordList &input) = 0;
+    virtual vector<vector<double>> hash(const vector<vector<double>> &input) = 0;
 };
