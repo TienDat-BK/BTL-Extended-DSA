@@ -2,10 +2,11 @@
 
 // fingerprint 64
 
-vector<double> SimHash::hash_1(const vector<double> &vt)
+VectorRecord SimHash::hash_1(const VectorRecord &vec)
 {
     vector<double> a(64, 0.0);
 
+    vector<double> vt = vec.vec;
     for(int i = 0; i < vt.size(); ++i)
     {
         uint64_t out[2];
@@ -21,14 +22,15 @@ vector<double> SimHash::hash_1(const vector<double> &vt)
     vector<double> rt(64);
     for(int i = 0; i<64; ++i) rt[i] = (a[i]>=0) ? 1 : 0;
 
-    return rt;
+    VectorRecord ans(vec.id, rt);
+    return ans;
 }
 
 
-vector<vector<double>> SimHash::hash(const vector<vector<double>> &set)
+vector<VectorRecord> SimHash::hash(const vector<VectorRecord> &set)
 {
     int nums = set.size();
-    vector<vector<double>> rt(nums);
+    vector<VectorRecord> rt(nums);
     for(int i = 0; i< nums; ++i)
     {
         rt[i] = this->hash_1(set[i]);
