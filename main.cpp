@@ -6,7 +6,7 @@
 int main()
 {
     // Example usage of SimHash
-    SimHash simHash(384, 128);
+    SimHash simHash(3, 128);
 
     
 

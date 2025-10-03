@@ -4,6 +4,9 @@
 
 VectorRecord SimHash::hash_1(const VectorRecord &vec)
 {
+    if((vec.vec.size() != this->inputDim))
+        throw invalid_argument("input vector is invalid!");
+
     vector<double> a(this->outputDim, 0.0);
 
     vector<double> vt = vec.vec;

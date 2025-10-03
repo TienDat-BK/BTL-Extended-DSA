@@ -13,5 +13,6 @@
 #include <deque>
 #include <functional>
 #include <stack>
+#include <stdexcept>
 using namespace std;
 #define mod 1000000007;
