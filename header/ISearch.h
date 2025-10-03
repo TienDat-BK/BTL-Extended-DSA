@@ -6,7 +6,8 @@ using namespace std;
 class Search
 {
 private:
-
+    double hammingDistance(VectorRecord, VectorRecord);  // SimHash
+    double jarcardSimilarity(VectorRecord, VectorRecord); // MinHash
 
 public:
     double hammingDistance(VectorRecord, VectorRecord);  // SimHash
