@@ -3,6 +3,7 @@
 
 double Search::hammingDistance(VectorRecord vec1, VectorRecord vec2)
 {
+
     vector<double> a = vec1.vec;
     vector<double> b = vec2.vec;
     double dis = 0;
