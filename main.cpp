@@ -3,39 +3,54 @@
 #include <cmath>
 #include "header/ISearch.h"
 #include "header/MinHash.h"
+#include "header/DSU.h"
+
+void DSU_test()
+{
+    DSU dsu(5);
+    dsu.unionSet(0, 1);
+    dsu.unionSet(1, 2);
+    dsu.unionSet(0, 2);
+
+    vector<vector<int>> groups = dsu.getGroups();
+    for (const auto &group : groups)
+    {
+        for (int member : group)
+        {
+            cout << member << " ";
+        }
+        cout << endl;
+    }
+}
+
+void test_ClassifyByBand()
+{
+    vector<VectorRecord> vecRecords = {
+        VectorRecord(1, {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}),
+        VectorRecord(2, {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.81}),
+        VectorRecord(3, {0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2}),
+        VectorRecord(4, {0.91, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2}),
+        VectorRecord(5, {0.92, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2}),
+    };
+
+    Search search;
+    vector<vector<VectorRecord>> result = search.classifyByBand(vecRecords);
+
+    cout << search.hammingDistance(vecRecords[0], vecRecords[1]) << endl;
+
+    for (const auto &group : result)
+    {
+        for (const auto &vec : group)
+        {
+            cout << vec.id << " ";
+        }
+        cout << endl;
+    }
+}
+
 int main()
 {
-    // Example usage of SimHash
-    SimHash simHash(3, 128);
-
-    
-
-    vector<double> vec1 = {1.0, 2.0, 3.0};
-    vector<double> vec2 = {1.0, 10.0, 10.345};
-
-    // Create a vector recordcls
-
-    
-    VectorRecord record1(1, vec1);
-    VectorRecord record2(2, vec2);
-
-
-
-    // Hash a single vector record
-    VectorRecord hashedRecord = simHash.hash_1(record1);
-    VectorRecord hashedRecord2 = simHash.hash_1(record2);
-
-    // Print the hashed vector record
-    cout << "Hashed Record 1: " << hashedRecord.to_string() << endl;
-    cout << "Hashed Record 2: " << hashedRecord2.to_string() << endl;
-
-    cout << (hashedRecord2 == hashedRecord) << endl;
-    
-    //test hammingDistance
-    Search se;
-
-    cout<<endl<<"Distance :"<<se.hammingDistance(hashedRecord2, hashedRecord)<<endl;
-    
+    test_ClassifyByBand();
     return 0;
 }
 
