@@ -1,9 +1,20 @@
 {
   "files.associations": {
+    "*.cpp": "cpp",
     "vector": "cpp",
     "utility": "cpp",
     "unordered_set": "cpp",
     "xstring": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "array": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "string_view": "cpp",
+    "format": "cpp",
+    "initializer_list": "cpp",
+    "ranges": "cpp",
+    "span": "cpp",
+    "text_encoding": "cpp"
   }
 }
