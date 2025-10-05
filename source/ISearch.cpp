@@ -57,7 +57,7 @@ vector<vector<VectorRecord>> Search::classifyByBand(vector<VectorRecord> setOfVe
     cout << "Classify by band with " << setOfVecRecord.size() << " vectors, each of dimension " << setOfVecRecord[0].vec.size() << ", using " << this->num_bands << " bands." << endl;
 
     // kiểm tra tính hợp lệ của tham số
-    if (this->num_bands > setOfVecRecord[0].vec.size())
+    if (this->num_bands > dim)
         throw invalid_argument("Number of bands exceeds vector dimension");
     // kiểm tra hàm khoảng cách đã được gán chưa
     if (this->disFunc == nullptr)
@@ -82,18 +82,30 @@ vector<vector<VectorRecord>> Search::classifyByBand(vector<VectorRecord> setOfVe
 
     // STEP 2 : Dùng DSU để nhóm các VecRecord chung Band
     DSU dsu(vecCnt);
-    for (const auto &bucket : setOfBucket)
+    for (auto &bucket : setOfBucket)
     {
-        for (const auto &[bandHashValue, setOfVectorInSame] : bucket)
+        for (auto &[bandHashValue, setOfVectorInSame] : bucket)
         {
+            // lấy vecRecord đầu tiên làm seed
             int u = setOfVectorInSame[0];
-            for (int i = 1; i < setOfVectorInSame.size(); i++)
+            while (setOfVectorInSame.size() > 1)
             {
-                // tinhk toán khoảng cách giữa các vecRecord trong cùng bucket
-                // nếu khoảng cách nhỏ hơn threshold thì gộp chúng lại
-                int v = setOfVectorInSame[i];
-                if (this->disFunc(setOfVecRecord[u], setOfVecRecord[v]) < this->threshold)
-                    dsu.unionSet(u, v);
+                for (int i = setOfVectorInSame.size() - 1; i > 0; i--)
+                {
+                    // tinhk toán khoảng cách giữa các vecRecord trong cùng bucket
+                    // nếu khoảng cách nhỏ hơn threshold thì gộp chúng lại
+                    int v = setOfVectorInSame[i];
+                    if (this->disFunc(setOfVecRecord[u], setOfVecRecord[v]) < this->threshold)
+                    {
+                        dsu.unionSet(u, v);
+                        // xóa khỏi setOfVectorInSame để tránh tính toán lại
+                        swap(setOfVectorInSame[i], setOfVectorInSame.back());
+                        setOfVectorInSame.pop_back();
+                    }
+                }
+                // xóa vecRecord đầu tiên khỏi setOfVectorInSame để tránh tính toán lại
+                swap(setOfVectorInSame[0], setOfVectorInSame.back());
+                setOfVectorInSame.pop_back();
             }
         }
     }
