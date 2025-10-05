@@ -83,7 +83,7 @@ void stress_search_test(int nVec, int dim, int nBands, double threshold)
 
 int main()
 {
-    stress_search_test(1000, 128, 32, 0.5);
+    stress_search_test(5000, 128, 16, 0.5);
     return 0;
 }
 
