@@ -27,7 +27,7 @@ double Search::jarcardSimilarity(VectorRecord vec1, VectorRecord vec2)
     vector<double> uni;
     set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), back_inserter(uni));
 
-    return (double)inter.size() / uni.size();
+    return 1 - (double)inter.size() / uni.size();
 
 }
 
