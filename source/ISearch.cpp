@@ -1,4 +1,4 @@
-#include "../header/ISearch.h"
+#include "../header/ISearch.hpp"
 
 double Search::hammingDistance(const VectorRecord &vec1, const VectorRecord &vec2)
 {

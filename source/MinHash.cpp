@@ -1,4 +1,4 @@
-#include "../header/MinHash.h"
+#include "../header/MinHash.hpp"
 
 //sig length = 200
 

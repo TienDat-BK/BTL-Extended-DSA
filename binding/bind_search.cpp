@@ -1,0 +1,20 @@
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+#include "../header/ISearch.hpp"
+#include "../header/VectorRecord.hpp"
+
+namespace py = pybind11;
+void bind_search(py::module_ &m)
+{
+    py::class_<Search>(m, "search")
+        .def(py::init<>())
+        .def_static("jarcardSimilarity", &Search::jarcardSimilarity)
+        .def_static("hammingDistance",&Search::hammingDistance)
+        .def("classify", &Search::classify)
+        .def("classifyByBand", &Search::classifyByBand)
+
+        .def_readwrite("disFunc", &Search::disFunc)
+        .def_readwrite("num_bands", &Search::num_bands)
+        .def_readwrite("threshold", &Search::threshold)
+    ;
+}

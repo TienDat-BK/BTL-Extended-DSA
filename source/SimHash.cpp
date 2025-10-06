@@ -1,4 +1,4 @@
-#include "..\header\SimHash.h"
+#include "..\header\SimHash.hpp"
 
 // fingerprint 64
 
