@@ -6,6 +6,7 @@ using namespace std;
 
 class Search
 {
+
 public:
     double (*disFunc)(const VectorRecord &, const VectorRecord &) = &Search::hammingDistance; // con trỏ hàm tính khoảng cách ( jarcard, hamming,... sẽ đc dùng ở các class con)
     int num_bands = 4;                                                                        // số bands
@@ -36,6 +37,5 @@ public:
 public:
     static double jarcardSimilarity(const VectorRecord &, const VectorRecord &); // MinHash
     static double hammingDistance(const VectorRecord &, const VectorRecord &);   // SimHash
-
     vector<vector<VectorRecord>> classify(vector<vector<double>>);
 };
