@@ -26,9 +26,9 @@ int main() {
     int numVectors = 5000;
     int dim = 128;
     int m = 20000; // kích thước bit array
-    int k = 6;     // số hash function
+    int k = 6;     // số hàm hash
 
-    BloomFilter bf(dim, dim, m, k);
+    BloomFilter bf(dim, 0, m, k);
     Search se;
 
     // random generator
@@ -41,50 +41,72 @@ int main() {
     for (int i = 0; i < numVectors; i++)
         input.push_back(randomVector(dim, gen, dist));
 
-    // --- Round 1 ---
+    // ----------- Round 1 -----------
     auto start = chrono::high_resolution_clock::now();
     auto unique1 = bf.hash(input);
     auto end = chrono::high_resolution_clock::now();
-    auto duration1 = chrono::duration_cast<chrono::microseconds>(end - start).count();
-
-    int round1ExactDuplicates = 0;
-    for (const auto &cand : bf.getCandidates()) {
-        for (const auto &u : unique1) {
-            if (fabs(se.cosineSimilarity(cand, u) - 1.0) < 1e-9) {
-                round1ExactDuplicates++;
-                break;
-            }
-        }
-    }
+    auto t1 = chrono::duration_cast<chrono::microseconds>(end - start).count();
 
     cout << "Round 1 - Added unique: " << unique1.size() << endl;
     cout << "Round 1 - Candidates: " << bf.getCandidates().size() << endl;
-    cout << "Hash time for Round 1: " << duration1 << " microseconds" << endl;
-    cout << "Round 1 - False positives: " 
-         << (bf.getCandidates().size() - round1ExactDuplicates) << endl;
-    cout << "Hash time for Round 1: " << duration1 << " microseconds" << endl;
+    cout << "Hash time for Round 1: " << t1 << " microseconds" << endl;
 
-    // --- Round 2: thêm lại đúng 5000 vector ---
+    // Kiểm tra xem 275 candidates là false positive thật hay trùng
+    int realDuplicates1 = 0, falsePositives1 = 0;
+    for (const auto &cand : bf.getCandidates()) {
+        bool isDuplicate = false;
+        for (const auto &u : unique1) {
+            if (fabs(se.cosineSimilarity(cand, u) - 1.0) < 1e-9) {
+                isDuplicate = true;
+                break;
+            }
+        }
+        if (isDuplicate) realDuplicates1++;
+        else falsePositives1++;
+    }
+    cout << "Round 1 - Real duplicates by cosine: " << realDuplicates1 << endl;
+    cout << "Round 1 - False positives detected: " << falsePositives1 << endl;
+
+    // ✅ Thêm false positive vào unique và Bloom filter
+    int falsePositivesFixed = 0;
+    for (const auto &cand : bf.getCandidates()) {
+        bool isDuplicate = false;
+        for (const auto &u : unique1) {
+            if (fabs(se.cosineSimilarity(cand, u) - 1.0) < 1e-9) {
+                isDuplicate = true;
+                break;
+            }
+        }
+        if (!isDuplicate) {
+            falsePositivesFixed++;
+            unique1.push_back(cand);
+        }
+    }
+    cout << "Round 1 - False positives corrected and added: " 
+         << falsePositivesFixed << endl;
+    cout << "Total unique after correction: " << unique1.size() << endl;
+
+    // ----------- Round 2 -----------
     start = chrono::high_resolution_clock::now();
     auto unique2 = bf.hash(input);
     end = chrono::high_resolution_clock::now();
-    auto duration2 = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    auto t2 = chrono::duration_cast<chrono::microseconds>(end - start).count();
 
-    // Đếm số trùng thực tế bằng cosine
-    int exactDuplicates = 0;
-    for (auto &cand : bf.getCandidates()) {
-        for (auto &u : unique1) {
+    cout << "Round 2 - Added unique: " << unique2.size() << endl;
+    cout << "Round 2 - Candidates: " << bf.getCandidates().size() << endl;
+
+    // Kiểm tra chính xác số trùng thật sự bằng cosine
+    int exactDuplicates2 = 0;
+    for (const auto &cand : bf.getCandidates()) {
+        for (const auto &u : unique1) {
             if (fabs(se.cosineSimilarity(cand, u) - 1.0) < 1e-9) {
-                exactDuplicates++;
+                exactDuplicates2++;
                 break;
             }
         }
     }
-
-    cout << "Round 2 - Added unique: " << unique2.size() << endl;
-    cout << "Round 2 - Candidates: " << bf.getCandidates().size() << endl;
-    cout << "Round 2 - Exact duplicates by cosine: " << exactDuplicates << endl;
-    cout << "Hash time for Round 2: " << duration2 << " microseconds" << endl;
+    cout << "Round 2 - Exact duplicates by cosine: " << exactDuplicates2 << endl;
+    cout << "Hash time for Round 2: " << t2 << " microseconds" << endl;
 
     return 0;
 }
