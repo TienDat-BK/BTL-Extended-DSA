@@ -4,12 +4,6 @@
 #include "header/ISearch.h"
 #include "header/MinHash.h"
 #include "header/BloomFilter.h"
-#include <chrono>
-#include <iostream>
-#include <vector>
-#include "../header/BloomFilter.h"
-using namespace std;
-
 #include <iostream>
 #include <vector>
 #include <random>
