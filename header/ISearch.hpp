@@ -10,8 +10,8 @@ class Search
 public:
     // double (*disFunc)(const VectorRecord &, const VectorRecord &) = &Search::hammingDistance; // con trỏ hàm tính khoảng cách ( jarcard, hamming,... sẽ đc dùng ở các class con)
     function<double(const VectorRecord &, const VectorRecord &)> disFunc;
-    int num_bands = 4;                                                                        // số bands
-    double threshold = 0.4;                                                                   // ngưỡng để quyết định 2 vecRecord có cùng nhóm hay không
+    int num_bands = 4;      // số bands
+    double threshold = 0.4; // ngưỡng để quyết định 2 vecRecord có cùng nhóm hay không
 private:
     vector<double> getband(VectorRecord, int, int); // lấy band thứ i trong b bands
 
@@ -38,5 +38,15 @@ public:
 public:
     static double jarcardSimilarity(const VectorRecord &, const VectorRecord &); // MinHash
     static double hammingDistance(const VectorRecord &, const VectorRecord &);   // SimHash
+
+    void setDisFunc(string nameDisFunc)
+    {
+        if (nameDisFunc == "jarcard")
+            this->disFunc = &Search::jarcardSimilarity;
+        else if (nameDisFunc == "hamming")
+            this->disFunc = &Search::hammingDistance;
+        else
+            throw invalid_argument("Invalid distance function name");
+    }
     // vector<vector<VectorRecord>> classify(vector<vector<double>>);
 };
