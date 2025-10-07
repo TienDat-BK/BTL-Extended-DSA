@@ -15,6 +15,7 @@ ext_modules = [
             pybind11.get_include(),
             "header"
         ],
+        language='c++',
         cxx_std=17,
         extra_compile_args=["-O3", "-Wall", "-fPIC"],
     ),
