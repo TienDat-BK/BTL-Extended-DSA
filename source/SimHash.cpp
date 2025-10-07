@@ -1,16 +1,16 @@
-#include "..\header\SimHash.hpp"
+#include "../header/SimHash.hpp"
 
 // fingerprint 64
 
 VectorRecord SimHash::hash_1(const VectorRecord &vec)
 {
-    if((vec.vec.size() != this->inputDim))
+    if((vec.vec.size() != static_cast<size_t>(this->inputDim)))
         throw invalid_argument("input vector is invalid!");
 
     vector<double> a(this->outputDim, 0.0);
 
     vector<double> vt = vec.vec;
-    for(int i = 0; i < vt.size(); ++i)
+    for(size_t i = 0; i < vt.size(); ++i)
     {
         uint64_t out[2];
         MurmurHash3_x64_128(&i, sizeof(i), 10, &out);

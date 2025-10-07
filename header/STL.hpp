@@ -14,5 +14,7 @@
 #include <functional>
 #include <stack>
 #include <stdexcept>
+#include <cstdint>
+#include <limits> 
 using namespace std;
 #define mod 1000000007;

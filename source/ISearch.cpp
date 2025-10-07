@@ -8,7 +8,7 @@ double Search::hammingDistance(const VectorRecord &vec1, const VectorRecord &vec
     int dim = a.size();
     double epsilon = 1e-9;
     double dis = 0;
-    for (int i = 0; i < a.size(); ++i)
+    for (size_t i = 0; i < a.size(); ++i)
     {
         if (fabs(a[i] - b[i]) > epsilon)
             dis = dis + 1;
@@ -39,8 +39,8 @@ double Search::jarcardSimilarity(const VectorRecord &vec1, const VectorRecord &v
 vector<double> Search::getband(VectorRecord vec, int band_index, int band_size)
 {
     vector<double> band;
-    int start = band_index * band_size;
-    int end = start + band_size;
+    size_t start = band_index * band_size;
+    size_t end = start + band_size;
     // nếu band cuối cùng không đủ band_size thì lấy hết phần còn lại
     if (end > vec.vec.size())
         end = vec.vec.size();

@@ -4,9 +4,10 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/Users/ACER/AppData/Local/Programs/Python/Python313/Include",
-                "C:/Users/ACER/AppData/Local/Programs/Python/Python313/Lib/site-packages/pybind11/include",
-                "header" // thư mục header riêng của bạn
+                "${workspaceFolder}/header",
+                "${workspaceFolder}/binding",
+                "/usr/include/python3.12",
+                "/home/giakhanh/Coding/BTL-Extended-DSA/.bind/lib/python3.12/site-packages/pybind11/include"
             ],
             "defines": [
                 "_DEBUG",

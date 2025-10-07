@@ -1,7 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include "../header/SimHash.hpp"
-#include "../header/IHash.hpp"
+#include "../header/iHash.hpp"
 #include "../header/VectorRecord.hpp"
 namespace py = pybind11;
 
