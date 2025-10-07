@@ -38,5 +38,5 @@ public:
 public:
     static double jarcardSimilarity(const VectorRecord &, const VectorRecord &); // MinHash
     static double hammingDistance(const VectorRecord &, const VectorRecord &);   // SimHash
-    vector<vector<VectorRecord>> classify(vector<vector<double>>);
+    // vector<vector<VectorRecord>> classify(vector<vector<double>>);
 };

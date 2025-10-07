@@ -6,11 +6,10 @@
 namespace py = pybind11;
 void bind_search(py::module_ &m)
 {
-    py::class_<Search>(m, "search")
+    py::class_<Search>(m, "Search")
         .def(py::init<>())
         .def_static("jarcardSimilarity", &Search::jarcardSimilarity)
         .def_static("hammingDistance",&Search::hammingDistance)
-        .def("classify", &Search::classify)
         .def("classifyByBand", &Search::classifyByBand)
 
         .def_readwrite("disFunc", &Search::disFunc)
