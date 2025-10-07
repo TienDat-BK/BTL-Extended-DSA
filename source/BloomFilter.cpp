@@ -1,7 +1,5 @@
 #include "../header/BloomFilter.h"
 
-BloomFilter::BloomFilter(int i, int o, int m, int k) : IHash(i, o), m(m), k(k), bitArray(m, false) {};
-
 vector<size_t> BloomFilter::getHashIndices(const VectorRecord &rec) const {
     uint64_t out[2];
     MurmurHash3_x64_128(
