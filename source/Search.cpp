@@ -11,10 +11,7 @@ vector<vector<VectorRecord>> groupSimilar(const BandBloomFilter& filter,
                                           const vector<VectorRecord>& dataset)
 {
     vector<vector<VectorRecord>> clusters;
-    const auto& bitArray = filter.getBitArray();
     unordered_set<string> seen; // dùng để tránh trùng cụm
-
-    int totalSize = bitArray.size();
     int bands = filter.getBands();
     int m = filter.getM();
 
@@ -56,5 +53,23 @@ void printClusters(const vector<vector<VectorRecord>>& clusters) {
             cout << rec.id << " "; // giả sử VectorRecord có field id
         }
         cout << endl;
+    }
+}
+
+
+void BandBloomFilter::addVector(int vectorID, const vector<double>& vec, vector<VectorRecord>& bitArray) {
+    int perBand = inputDim / num_bands;
+
+    for (int b = 0; b < num_bands; b++) {
+        int start = b * perBand;
+        int end = (b == num_bands - 1) ? inputDim : start + perBand;
+        vector<double> subvec(vec.begin() + start, vec.begin() + end);
+
+        vector<size_t> indices = getHashIndices(subvec, b);
+        int bandOffset = b * m;
+
+        for (size_t h : indices) {
+            bitArray[bandOffset + h].vec.push_back(vectorID);
+        }
     }
 }
