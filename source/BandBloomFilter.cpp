@@ -30,8 +30,7 @@ void BandBloomFilter::addVector(int vectorID, const vector<double>& vec, vector<
 
         vector<size_t> indices = getHashIndices(subvec, b);
         int bandOffset = b * m;
-
-        cout << "Vector " << vectorID << " - Band " << b << ": ";
+        cout << "Vector " << vectorID << " Band " << b << ": ";
         for (size_t h : indices) {
             cout << h << " ";
             bitArray[bandOffset + h].vec.push_back(vectorID);
@@ -43,10 +42,7 @@ void BandBloomFilter::addVector(int vectorID, const vector<double>& vec, vector<
 
 
 vector<VectorRecord> BandBloomFilter::hash(const vector<VectorRecord>& input) {
-    // 1️⃣ Tạo bit array cục bộ
     vector<VectorRecord> bitArray(num_bands * m);
-
-    // 2️⃣ Thêm toàn bộ vector vào Bloom Filter
     for (int i = 0; i < (int)input.size(); i++) {
         addVector(i, input[i].vec, bitArray);
     }

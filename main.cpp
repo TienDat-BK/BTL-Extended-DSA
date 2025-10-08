@@ -12,36 +12,34 @@
 #include "../header/BandBloomFilter.h"
 using namespace std;
 
-int main() {
-    // Cấu hình bộ lọc
-    BandBloomFilter bf(6, 6, 2, 2, 10);
 
-    // Tạo vài vector mẫu
+int main() {
     vector<VectorRecord> input = {
-        {0, {0.1, 0.2, 0.3, 0.4, 0.5, 0.6}},
-        {1, {0.9, 0.8, 0.7, 0.6, 0.5, 0.4}},
-        {2, {0.1, 0.2, 0.35, 0.4, 0.5, 0.6}}
+        {0, {1, 1, 0, 0, 0, 0}},
+        {1, {1, 0.9, 0, 0, 0, 0}},
+        {2, {0, 0, 1, 1, 0, 0}},
+        {3, {0, 0, 1, 0.9, 0, 0}},
+        {4, {1, 0, 0.5, 0.5, 0, 0}},
+        {5, {0, 0, 0, 0, 1, 1}}
     };
 
-    // Gọi hàm hash
+    BandBloomFilter bf(6, 6, 3, 10, 3);   // bắt buộc thêm
     vector<VectorRecord> bitArray = bf.hash(input);
 
-    // In ra kết quả (band nào chứa vector nào)
-    int bandSize = bf.getM();
-    for (int b = 0; b < bf.getBands(); b++) {
-        cout << "=== Band " << b << " ===" << endl;
-        for (int h = 0; h < bandSize; h++) {
-            int idx = b * bf.getM() + h;
-            cout << "Slot " << h << ": ";
-            for (double v : bitArray[idx].vec) {
-                cout << (int)v << " ";
-            }
-            cout << endl;
-        }
+    Search s;
+    s.num_bands = 3;
+    s.threshold = 0.85;
+    s.disFunc = Search::cosineDistance;
+
+    auto clusters = s.bloomClassify(bitArray, input);
+
+    cout << "\nResult clusters:\n";
+    for (int i = 0; i < clusters.size(); i++) {
+        cout << "Cluster " << i+1 << ": ";
+        for (auto &r : clusters[i])
+            cout << r.id << " ";
         cout << endl;
     }
-
-    return 0;
+    cout << bf.getM();
 }
-
 // g++ -std=c++17 -O2 -Iheader -o my_program main.cpp source/MurmurHash3.cpp source/SimHash.cpp

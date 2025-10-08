@@ -37,6 +37,7 @@ public:
 public:
     static double jarcardSimilarity(const VectorRecord &, const VectorRecord &); // MinHash
     static double hammingDistance(const VectorRecord &, const VectorRecord &);   // SimHash
-    static double Search::cosineDistance(const VectorRecord &vec1, const VectorRecord &vec2); //BloomFilter
+    static double cosineDistance(const VectorRecord &vec1, const VectorRecord &vec2); //BloomFilter
+    vector<vector<VectorRecord>> bloomClassify(const vector<VectorRecord>& bitArray, const vector<VectorRecord>& originalVectors);
     vector<vector<VectorRecord>> classify(vector<vector<double>>);
 };
