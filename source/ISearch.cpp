@@ -16,7 +16,7 @@ double Search::hammingDistance(const VectorRecord &vec1, const VectorRecord &vec
     return dis / dim;
 }
 
-double Search::cosineSimilarity(VectorRecord vec1, VectorRecord vec2)
+double Search::cosineDistance(const VectorRecord &vec1, const VectorRecord &vec2)
 {
     vector<double> a = vec1.vec;
     vector<double> b = vec2.vec;
