@@ -29,7 +29,7 @@ double Search::cosineDistance(const VectorRecord &vec1, const VectorRecord &vec2
         norm_b += b[i] * b[i];
     }
     if (norm_a == 0 || norm_b == 0) return 0.0;
-    return dot_product / (sqrt(norm_a) * sqrt(norm_b));
+    return 1 - dot_product / (sqrt(norm_a) * sqrt(norm_b));
 }  
 
 
@@ -161,51 +161,3 @@ vector<vector<VectorRecord>> Search::classifyByBand(vector<VectorRecord> setOfVe
     }
     return result;
 }
-
-vector<vector<VectorRecord>> Search::bloomClassify(
-    const vector<VectorRecord>& bitArray,
-    const vector<VectorRecord>& originalVectors
-) {
-    int numVectors = (int)originalVectors.size();
-    int dim = bitArray[0].vec.size();
-    int bandSize = dim / num_bands;
-
-    DSU dsu(numVectors);
-
-    for (int i = 0; i < numVectors; i++) {
-        for (int j = i + 1; j < numVectors; j++) {
-            bool sameBand = false;
-            for (int b = 0; b < num_bands && !sameBand; b++) {
-                int start = b * bandSize;
-                int end = (b + 1) * bandSize;
-                bool allEqual = true;
-                for (int k = start; k < end; k++) {
-                    if (bitArray[i].vec[k] != bitArray[j].vec[k]) {
-                        allEqual = false;
-                        break;
-                    }
-                }
-                if (allEqual) sameBand = true;
-            }
-
-            // Nếu có band trùng, thì tính cosine
-            if (sameBand) {
-                double sim = disFunc(originalVectors[i], originalVectors[j]);
-                if (sim >= threshold)
-                    dsu.unionSet(i, j);
-            }
-        }
-    }
-
-    vector<vector<int>> groups = dsu.getGroups();
-    vector<vector<VectorRecord>> result;
-    for (auto& g : groups) {
-        vector<VectorRecord> cluster;
-        for (int id : g)
-            cluster.push_back(originalVectors[id]);
-        result.push_back(move(cluster));
-    }
-
-    return result;
-}
-

@@ -9,37 +9,46 @@
 #include <random>
 #include <chrono>
 #include "../header/BloomFilter.h"
-#include "../header/BandBloomFilter.h"
 using namespace std;
 
 
 int main() {
-    vector<VectorRecord> input = {
-        {0, {1, 1, 0, 0, 0, 0}},
-        {1, {1, 0.9, 0, 0, 0, 0}},
-        {2, {0, 0, 1, 1, 0, 0}},
-        {3, {0, 0, 1, 0.9, 0, 0}},
-        {4, {1, 0, 0.5, 0.5, 0, 0}},
-        {5, {0, 0, 0, 0, 1, 1}}
-    };
+    // Tham số Bloom filter
+    size_t expectedItems = 100000;
+    double falsePositiveRate = 0.001;
 
-    BandBloomFilter bf(6, 6, 3, 10, 3);   // bắt buộc thêm
-    vector<VectorRecord> bitArray = bf.hash(input);
+    BloomFilter bf(0, 0, expectedItems, falsePositiveRate);
 
-    Search s;
-    s.num_bands = 3;
-    s.threshold = 0.85;
-    s.disFunc = Search::cosineDistance;
+    // Tạo dữ liệu ngẫu nhiên
+    vector<VectorRecord> input;
+    mt19937 rng(12345);
+    uniform_real_distribution<float> dist(-1.0, 1.0);
 
-    auto clusters = s.bloomClassify(bitArray, input);
-
-    cout << "\nResult clusters:\n";
-    for (int i = 0; i < clusters.size(); i++) {
-        cout << "Cluster " << i+1 << ": ";
-        for (auto &r : clusters[i])
-            cout << r.id << " ";
-        cout << endl;
+    // Sinh 100k vector ngẫu nhiên (mỗi vector 8 chiều)
+    for (int i = 0; i < 10000; i++) {
+        VectorRecord rec;
+        rec.id = i;
+        rec.vec.resize(384);
+        for (double &x : rec.vec) x = dist(rng);
+        input.push_back(rec);
     }
-    cout << bf.getM();
+
+    // Thêm bản sao trùng (15% bị trùng)
+    for (int i = 0; i < 1500; i++) {
+        input.push_back(input[i]); // copy 1500 bản đầu
+    }
+
+    cout << "Tổng số vector đầu vào: " << input.size() << endl;
+
+    auto start = chrono::high_resolution_clock::now();
+    vector<VectorRecord> unique = bf.hash(input);
+    auto end = chrono::high_resolution_clock::now();
+
+    cout << "Số vector unique sau lọc Bloom: " << unique.size() << endl;
+    cout << "Thời gian xử lý: " 
+         << chrono::duration_cast<chrono::milliseconds>(end - start).count()
+         << " ms" << endl;
+
+    return 0;
 }
 // g++ -std=c++17 -O2 -Iheader -o my_program main.cpp source/MurmurHash3.cpp source/SimHash.cpp
