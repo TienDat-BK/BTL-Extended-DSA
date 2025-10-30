@@ -6,9 +6,9 @@ class MinHash : public IHash
 {
 private:
 public:
-
     /// Hàm băm ( ko thay đổi )
-    MinHash(int i, int o): IHash(i,o){}
-    VectorRecord hash_1(const VectorRecord&);
+    MinHash(int i, int o) : IHash(i, o) {}
+    MinHash() : IHash() {}
+    VectorRecord hash_1(const VectorRecord &);
     vector<VectorRecord> hash(const vector<VectorRecord> &input);
 };

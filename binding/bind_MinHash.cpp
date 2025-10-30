@@ -5,10 +5,11 @@
 #include "../header/VectorRecord.hpp"
 namespace py = pybind11;
 
-void bind_minhash(py::module_ &m){
+void bind_minhash(py::module_ &m)
+{
     py::class_<MinHash, IHash>(m, "MinHash")
+        .def(py::init<>())
         .def(py::init<int, int>(), py::arg("InputDim"), py::arg("OutputDim"))
         .def("hash_1", &MinHash::hash_1, py::arg("record"))
-        .def("hash", &MinHash::hash, py::arg("list of record"))
-    ;   
+        .def("hash", &MinHash::hash, py::arg("list of record"));
 }

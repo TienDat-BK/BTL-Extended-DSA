@@ -10,7 +10,7 @@ class Search
 public:
     // double (*disFunc)(const VectorRecord &, const VectorRecord &) = &Search::hammingDistance; // con trỏ hàm tính khoảng cách ( jarcard, hamming,... sẽ đc dùng ở các class con)
     function<double(const VectorRecord &, const VectorRecord &)> disFunc;
-    int num_bands = 4;      // số bands
+    int num_bands = 32;     // số bands
     double threshold = 0.4; // ngưỡng để quyết định 2 vecRecord có cùng nhóm hay không
 private:
     vector<double> getband(VectorRecord, int, int); // lấy band thứ i trong b bands
