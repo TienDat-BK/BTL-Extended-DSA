@@ -1,4 +1,4 @@
-#include "../header/BloomFilter.h"
+#include "../header/BloomFilter.hpp"
 
 BloomFilter::BloomFilter(int i, int o, size_t expectedItems, double falsePositiveRate) : IHash(i, o) {
     // Tính toán kích thước m và số hàm băm k dựa trên công thức Bloom filter

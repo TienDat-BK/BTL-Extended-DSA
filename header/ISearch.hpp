@@ -38,11 +38,6 @@ public:
 public:
     static double jarcardSimilarity(const VectorRecord &, const VectorRecord &); // MinHash
     static double hammingDistance(const VectorRecord &, const VectorRecord &);   // SimHash
-<<<<<<< HEAD:header/ISearch.h
-    static double cosineDistance(const VectorRecord &vec1, const VectorRecord &vec2); //BloomFilter
-    vector<vector<VectorRecord>> bloomClassify(const vector<VectorRecord>& bitArray, const vector<VectorRecord>& originalVectors);
-    vector<vector<VectorRecord>> classify(vector<vector<double>>);
-=======
 
     void setDisFunc(string nameDisFunc)
     {
@@ -54,5 +49,4 @@ public:
             throw invalid_argument("Invalid distance function name");
     }
     // vector<vector<VectorRecord>> classify(vector<vector<double>>);
->>>>>>> origin/binding:header/ISearch.hpp
 };

@@ -1,7 +1,7 @@
 #pragma once
-#include "iHash.h"
-#include "MurmurHash3.h"
-#include "VectorRecord.h"
+#include "iHash.hpp"
+#include "MurmurHash3.hpp"
+#include "VectorRecord.hpp"
 
 class BloomFilter : public IHash {
 private:
