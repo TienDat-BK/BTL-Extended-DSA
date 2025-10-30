@@ -5,21 +5,26 @@
 
 namespace py = pybind11;
 
-class PyIHash : public IHash {
+class PyIHash : public IHash
+{
 public:
     using IHash::IHash;
-    std::vector<VectorRecord> hash(const std::vector<VectorRecord> &input) override {
+    std::vector<VectorRecord> hash(const std::vector<VectorRecord> &input) override
+    {
         PYBIND11_OVERRIDE_PURE(
-            std::vector<VectorRecord>,  // return type
-            IHash,                      // parent class
-            hash,                       // name of the function
-            input                       // argument
+            std::vector<VectorRecord>, // return type
+            IHash,                     // parent class
+            hash,                      // name of the function
+            input                      // argument
         );
     }
 };
 
-void bind_ihash(py::module_ &m) {
+void bind_ihash(py::module_ &m)
+{
     py::class_<IHash, PyIHash>(m, "IHash")
         .def(py::init<int, int>())
+        .def(py::init<>())
+        .def("setInOutput", &IHash::setInOutput, py::arg("in"), py::arg("out"))
         .def("hash", &IHash::hash);
 }
