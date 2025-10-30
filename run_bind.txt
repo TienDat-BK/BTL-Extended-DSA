@@ -1,0 +1,8 @@
+auto-bind : python setup.py build_ext --inplace
+
+
+normal-bind : g++ -O3 -Wall -shared -std=c++17 -fPIC \
+    $(python3 -m pybind11 --includes) \
+    -Iheader -Isource -Ibinding \
+    source/*.cpp binding/*.cpp \
+    -o HSmodule$(python3-config --extension-suffix)
