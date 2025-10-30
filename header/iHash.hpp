@@ -11,6 +11,13 @@ protected:
     int outputDim;
 
 public:
-    IHash(int i, int o): inputDim(i), outputDim(o){}
+    IHash(int i, int o) : inputDim(i), outputDim(o) {}
+    IHash() {}
+    void setInOutput(int in, int out)
+    {
+        this->inputDim = in;
+        this->outputDim = out;
+    }
+
     virtual vector<VectorRecord> hash(const vector<VectorRecord> &input) = 0;
 };

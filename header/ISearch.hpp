@@ -48,5 +48,7 @@ public:
         else
             throw invalid_argument("Invalid distance function name");
     }
+
+    vector<vector<VectorRecord>> classify(vector<VectorRecord> setOfVec);
     // vector<vector<VectorRecord>> classify(vector<vector<double>>);
 };

@@ -16,25 +16,20 @@ double Search::hammingDistance(const VectorRecord &vec1, const VectorRecord &vec
     return dis / dim;
 }
 
-
 double Search::jarcardSimilarity(const VectorRecord &vec1, const VectorRecord &vec2)
 {
 
     set<double> s1(vec1.vec.begin(), vec1.vec.end());
     set<double> s2(vec2.vec.begin(), vec2.vec.end());
 
-    vector<double> inter; 
+    vector<double> inter;
     set_intersection(s1.begin(), s1.end(), s2.begin(), s2.end(), back_inserter(inter));
 
     vector<double> uni;
     set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), back_inserter(uni));
 
     return 1 - (double)inter.size() / uni.size();
-
 }
-
-
-
 
 vector<double> Search::getband(VectorRecord vec, int band_index, int band_size)
 {
@@ -44,7 +39,6 @@ vector<double> Search::getband(VectorRecord vec, int band_index, int band_size)
     // nếu band cuối cùng không đủ band_size thì lấy hết phần còn lại
     if (end > vec.vec.size())
         end = vec.vec.size();
-
 
     // nếu start vượt quá kích thước vector thì throw lỗi
     if (start >= vec.vec.size())
@@ -146,3 +140,8 @@ vector<vector<VectorRecord>> Search::classifyByBand(vector<VectorRecord> setOfVe
     return result;
 }
 
+vector<vector<VectorRecord>> Search::classify(vector<VectorRecord> setOfVec)
+{
+    // Sử dụng hàm classifyByBand để phân loại
+    return classifyByBand(setOfVec);
+}
