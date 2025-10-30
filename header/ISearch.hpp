@@ -1,0 +1,58 @@
+#pragma once
+#include "STL.hpp"
+#include "DSU.hpp"
+#include "VectorRecord.hpp"
+using namespace std;
+
+class Search
+{
+
+public:
+    // double (*disFunc)(const VectorRecord &, const VectorRecord &) = &Search::hammingDistance; // con trỏ hàm tính khoảng cách ( jarcard, hamming,... sẽ đc dùng ở các class con)
+    function<double(const VectorRecord &, const VectorRecord &)> disFunc;
+    int num_bands = 4;      // số bands
+    double threshold = 0.4; // ngưỡng để quyết định 2 vecRecord có cùng nhóm hay không
+private:
+    vector<double> getband(VectorRecord, int, int); // lấy band thứ i trong b bands
+
+    struct bandHash
+    {
+        size_t operator()(const vector<double> &band) const;
+    };
+
+    struct pairHash
+    {
+        size_t operator()(const pair<int, int> &p) const;
+    };
+
+public:
+    /*
+    setOfVecRecord (input)
+    └─> Hash band → setOfBucket
+          └─> DSU → groups (index)
+                 └─> move setOfVecRecord[idx] vào groupVecRecords
+                        └─> move groupVecRecords vào result
+    */
+    vector<vector<VectorRecord>> classifyByBand(vector<VectorRecord>);
+
+public:
+    static double jarcardSimilarity(const VectorRecord &, const VectorRecord &); // MinHash
+    static double hammingDistance(const VectorRecord &, const VectorRecord &);   // SimHash
+<<<<<<< HEAD:header/ISearch.h
+    static double cosineDistance(const VectorRecord &vec1, const VectorRecord &vec2); //BloomFilter
+    vector<vector<VectorRecord>> bloomClassify(const vector<VectorRecord>& bitArray, const vector<VectorRecord>& originalVectors);
+    vector<vector<VectorRecord>> classify(vector<vector<double>>);
+=======
+
+    void setDisFunc(string nameDisFunc)
+    {
+        if (nameDisFunc == "jarcard")
+            this->disFunc = &Search::jarcardSimilarity;
+        else if (nameDisFunc == "hamming")
+            this->disFunc = &Search::hammingDistance;
+        else
+            throw invalid_argument("Invalid distance function name");
+    }
+    // vector<vector<VectorRecord>> classify(vector<vector<double>>);
+>>>>>>> origin/binding:header/ISearch.hpp
+};

@@ -1,4 +1,4 @@
-#include "../header/MinHash.h"
+#include "../header/MinHash.hpp"
 
 //sig length = 200
 
@@ -12,16 +12,16 @@ size_t mini_hash(const string& in)
 VectorRecord MinHash::hash_1(const VectorRecord& vec)
 {
 
-    if((vec.vec.size() != this->inputDim))
-    throw invalid_argument("input vector is invalid!");
+    int size = vec.vec.size();
+    if((size != this->inputDim)) throw invalid_argument("input vector is invalid!");
 
-    std::hash<string> ha;
+    // std::hash<string> ha;
     vector<size_t> sig(this->outputDim, SIZE_MAX);
     vector<double> p = vec.vec;
  
     for(int seed = 0; seed < this->outputDim; ++seed)
     {
-        for(int i = 0; i < p.size(); i++)
+        for(size_t i = 0; i < p.size(); i++)
         {        
             if(fabs(p[i] - 1) < 1e-9)
             {
