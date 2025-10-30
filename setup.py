@@ -25,7 +25,7 @@ setup(
     name="HSmodule",
     version="0.1",
     author="Gia Khanh",
-    description="Hash + Search for duplication_text",
+    description="Hash + Search for duplication_text + bloom_filter_prefilter",
     ext_modules=ext_modules,
     cmdclass={"build_ext": build_ext},
 )
