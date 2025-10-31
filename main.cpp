@@ -1,126 +1,42 @@
-#include "header/SimHash.hpp"
 #include "header/MurmurHash3.hpp"
 #include <cmath>
-#include "header/ISearch.hpp"
-#include "header/MinHash.hpp"
-#include "header/DSU.hpp"
+#include "../header/ISearch.hpp"
+#include <iostream>
+#include <vector>
+#include <random>
 #include <chrono>
+#include "../header/BloomFilter.hpp"
+using namespace std;
 
-void DSU_test()
-{
-    DSU dsu(5);
-    dsu.unionSet(0, 1);
-    dsu.unionSet(1, 2);
-    dsu.unionSet(0, 2);
+int main() {
+    // expectedItems = 10, falsePositiveRate = 0.01
+    BloomFilter bf(0, 0, 10, 0.01);
 
-    vector<vector<int>> groups = dsu.getGroups();
-    for (const auto &group : groups)
-    {
-        for (int member : group)
-        {
-            cout << member << " ";
-        }
-        cout << endl;
-    }
-}
-
-void test_ClassifyByBand()
-{
-    vector<VectorRecord> vecRecords = {
-        VectorRecord(1, {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}),
-        VectorRecord(2, {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.81}),
-        VectorRecord(3, {0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2}),
-        VectorRecord(4, {0.91, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2}),
-        VectorRecord(5, {0.92, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2}),
+    vector<VectorRecord> input = {
+        {1, {1.0, 2.0, 3.0}},
+        {2, {1.0, 2.0, 3.0}},   // trùng với vector đầu
+        {3, {4.0, 5.0, 6.0}},
+        {4, {7.0, 8.0, 9.0}},
+        {5, {4.0, 5.0, 6.0}}    // trùng với vector thứ 3
     };
 
-    Search search;
-    search.disFunc = &Search::hammingDistance;
-    search.num_bands = 4;
-    search.threshold = 0.4;
+    // Dùng BloomFilter lọc trùng
+    vector<VectorRecord> output = bf.hash(input);
 
-    vector<vector<VectorRecord>> result = search.classifyByBand(vecRecords);
+    cout << "==== BloomFilter Test ====" << endl;
+    cout << "Input size: " << input.size() << endl;
+    cout << "Output size (unique): " << output.size() << endl;
+    cout << endl;
 
-    cout << "Hamming Distance: " << search.hammingDistance(vecRecords[0], vecRecords[1]) << endl;
-
-    int cnt = 0;
-    for (const auto &group : result)
-    {
-        cout << "Group " << ++cnt << ": ";
-        for (const auto &vec : group)
-        {
-            cout << vec.id << " ";
+    // In ra các vector còn lại sau khi lọc
+    for (size_t i = 0; i < output.size(); ++i) {
+        cout << "Vector " << i + 1 << ": ";
+        for (double v : output[i].vec) {
+            cout << v << " ";
         }
         cout << endl;
     }
-}
 
-void stress_search_test(int nVec, int dim, int nBands, double threshold)
-{
-    vector<VectorRecord> vecRecords;
-    for (int i = 0; i < nVec; ++i)
-    {
-        vector<double> vec(dim);
-        for (int j = 0; j < dim; ++j)
-        {
-            vec[j] = static_cast<double>(rand()) / RAND_MAX;
-        }
-        vecRecords.emplace_back(i, vec);
-    }
-
-    Search search;
-    search.disFunc = &Search::hammingDistance;
-    search.num_bands = nBands;
-    search.threshold = threshold;
-
-    auto start = chrono::high_resolution_clock::now();
-    vector<vector<VectorRecord>> result = search.classifyByBand(vecRecords);
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-
-    cout << "Classified " << nVec << " vectors of dimension " << dim << " into " << result.size() << " groups using " << nBands << " bands in " << duration.count() << " seconds." << endl;
-}
-
-int main()
-{
-
-    // // Example usage of SimHash
-    // SimHash simHash(3, 128);
-
-    
-
-    // // vector<double> vec1 = {1.0, 2.0, 3.0};
-    // // vector<double> vec2 = {1.0, 10.0, 10.345};
-
-
-    // vector<double> vec1 = {1,1,0,0,0,1,1,1,0,1};
-    // vector<double> vec2 = {1,1,0,1,0,1,0,1,0,1};
-    // // Create a vector recordcls
-
-    
-    // VectorRecord record1(1, vec1);
-    // VectorRecord record2(2, vec2);
-
-
-    // MinHash min(10, 128);
-    // // Hash a single vector record
-    // VectorRecord hashedRecord = min.hash_1(record1);
-    // VectorRecord hashedRecord2 = min.hash_1(record2);
-
-    // // Print the hashed vector record
-    // cout << "Hashed Record 1: " << hashedRecord.to_string() << endl;
-    // cout << "Hashed Record 2: " << hashedRecord2.to_string() << endl;
-
-    // // cout << (hashedRecord2 == hashedRecord) << endl;
-    
-    // //test hammingDistance
-    // Search se;
-
-    // cout<<endl<<"Distance :"<<se.jarcardSimilarity(hashedRecord2, hashedRecord)<<endl;
-    
-
-    stress_search_test(5000, 128, 16, 0.5);
     return 0;
 }
-
-// g++ -g source/ISearch.cpp source/MurmurHash3.cpp source/SimHash.cpp main.cpp -Iheader -o app.exe -std=c++17
+//g++ -std=c++17 -O2 -Iheader -o my_program main.cpp source/MurmurHash3.cpp source/BloomFilter.cpp

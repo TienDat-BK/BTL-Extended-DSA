@@ -6,8 +6,8 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/header",
                 "${workspaceFolder}/binding",
-                "/usr/include/python3.12",
-                "/home/giakhanh/Coding/BTL-Extended-DSA/.bind/lib/python3.12/site-packages/pybind11/include"
+                "C:/Users/nhp26/AppData/Local/Programs/Python/Python313/Include",
+                "C:/Users/nhp26/AppData/Local/Programs/Python/Python313/Lib/site-packages/pybind11/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -15,10 +15,10 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.26100.0",
-            "compilerPath": "cl.exe",
+            "compilerPath": "C:/msys64/ucrt64/bin/g++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64"
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4

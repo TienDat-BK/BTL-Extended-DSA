@@ -13,6 +13,7 @@
 #include <deque>
 #include <functional>
 #include <stack>
+#include <cstdint>
 #include <stdexcept>
 #include <cstdint>
 #include <limits> 
