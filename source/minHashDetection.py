@@ -7,7 +7,7 @@ class MinHashDetection:
         self.hasher = MinHash()
         self.searcher = Search()
         self.searcher.setDisFunc("hamming")
-        self.outputDim = 128
+        self.outputDim = 64
 
     def detect(self, ListOfText : list ):
         ListOfVecRecord = self.preprocessor(ListOfText)  
