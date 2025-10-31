@@ -1,4 +1,4 @@
-#include "../header/DSU.hpp";
+#include "../header/DSU.hpp"
 
 DSU::DSU(int n)
     {
