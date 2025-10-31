@@ -19,13 +19,10 @@ private:
     int *sizeOfParent;
 
 public:
-    DSU(int n) {}
-    ~DSU() {}
-
-    int find(int u) {}
-
-    bool unionSet(int u, int v) {}
-
+    DSU(int n);
+    ~DSU();
+    int find(int u);
+    bool unionSet(int u, int v);
     // hàm trả về nhóm các ID chung group
-    vector<vector<int>> getGroups() {}
+    vector<vector<int>> getGroups();
 };
