@@ -1,11 +1,22 @@
 from HSmodule import *
 from sentence_transformers import SentenceTransformer
 
+from ftfy import fix_text
+import re
+
 class Shingling:
   def __init__(self, k : int = 5):
     self.k = k
+    
+
+  def normalizing(seft, text: str):
+        text = fix_text(text)
+        text = re.sub(r"\s+", " ", text).strip()
+        text = text.lower()
+        return text
 
   def shingle(self, text : str):
+    text = normalizing(text)
     shingles = list()
     for i in range(len(text) - self.k + 1):
       shingles.append(text[i:i+self.k])
