@@ -15,8 +15,8 @@ class MinHashDetection:
         # cấu hình hasher cho phù hợp với kích thước vector đầu vào
         sizeOfVector = len(ListOfVecRecord[0].vec)
         self.hasher.setInOutput( sizeOfVector, self.outputDim)
-        
-        listVecHashed = self.hasher.hashing(ListOfVecRecord)
+
+        listVecHashed = self.hasher.hash(ListOfVecRecord)
 
         clusters = self.searcher.classify(listVecHashed)
 
