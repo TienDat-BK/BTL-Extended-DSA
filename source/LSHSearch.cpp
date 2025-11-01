@@ -80,7 +80,7 @@ vector<vector<VectorRecord>> LSHSearch::classifyByBand(vector<VectorRecord> setO
 
     // ở đây ta sẽ lấy key: size_t là giá trị sau khi hash của Band để giảm bộ nhows xuống
     vector<unordered_map<size_t, vector<int>>> setOfBucket(this->num_bands);
-    Search::bandHash bandHasher;
+    LSHSearch::bandHash bandHasher;
 
     // STEP 1 : Băm các Band và đánh dấu các VecRecord chung Band
     int vecCnt = 0;
