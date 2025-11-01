@@ -20,7 +20,7 @@ public:
 
     double threshold = 0.4; // ngưỡng để quyết định 2 vecRecord có cùng nhóm hay không
 private:
-    pair<vector<double>::iterator, vector<double>::iterator> getband(VectorRecord &, int, int); // trả về iterator của band thứ band_index
+    pair<vector<double>::iterator, vector<double>::iterator> getband(const VectorRecord &, int, int); // trả về iterator của band thứ band_index
 
     struct bandHash
     {
