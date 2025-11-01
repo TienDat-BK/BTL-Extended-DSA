@@ -7,7 +7,7 @@ class FaissSearch:
         self.threshold = 0.8
 
         # Tạo 1 đồ thị HNSW trong không gian 384 chiều, mỗi node có tối đa 32 cạnh
-        self.index = faiss.IndexHNSWFlat(384, 32)
+        self.index = faiss.IndexHNSWFlatIP(384, 32)
         self.index.hnsw.efSearch = 64 #Số lượng node được duyệt khi tìm kiếm
 
     def classify(self, setOfVecRecord : list[VectorRecord]) -> list[list[VectorRecord]]:
