@@ -70,7 +70,7 @@ size_t LSHSearch::pairHash::operator()(const pair<int, int> &p) const
     return seed;
 }
 
-vector<vector<VectorRecord>> LSHSearch::classifyByBand(vector<VectorRecord> setOfVecRecord)
+vector<vector<VectorRecord>> LSHSearch::classifyByBand(const vector<VectorRecord> &setOfVecRecord)
 {
     int dim = setOfVecRecord[0].vec.size();
     cout << "Classify by band with " << setOfVecRecord.size() << " vectors, each of dimension " << setOfVecRecord[0].vec.size() << ", using " << this->num_bands << " bands." << endl;
