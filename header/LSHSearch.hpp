@@ -3,11 +3,11 @@
 #include "DSU.hpp"
 #include "VectorRecord.hpp"
 using namespace std;
-namespace py = pybind11;
 
 // debug
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+namespace py = pybind11;
 
 class LSHSearch
 {
