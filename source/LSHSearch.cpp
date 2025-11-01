@@ -118,10 +118,6 @@ vector<vector<VectorRecord>> LSHSearch::classifyByBand(const vector<VectorRecord
                     int v = setOfVectorInSame[i];
                     if (this->disFunc(setOfVecRecord[u], setOfVecRecord[v]) < this->threshold)
                     {
-                        py::print("Union", u, "-", v, "dis=", this->disFunc(setOfVecRecord[u], setOfVecRecord[v]));
-                        py::print(setOfVecRecord[u].to_string());
-                        py::print(setOfVecRecord[v].to_string());
-                        py::print("-----");
                         dsu.unionSet(u, v);
                         // xóa khỏi setOfVectorInSame để tránh tính toán lại
                         swap(setOfVectorInSame[i], setOfVectorInSame.back());
