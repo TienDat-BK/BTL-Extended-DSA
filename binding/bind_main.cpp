@@ -8,6 +8,7 @@ void bind_vectorRecord(py::module_ &m);
 void bind_ihash(py::module_ &m);
 void bind_search(py::module_ &m);
 void bind_bloomfilter(py::module_ &m);
+void bind_DSU(py::module_ &m);
 
 PYBIND11_MODULE(HSmodule, m) {
   m.doc() = "Hash bindings module";
@@ -17,4 +18,5 @@ PYBIND11_MODULE(HSmodule, m) {
   bind_simhash(m);
   bind_search(m);
   bind_bloomfilter(m);
+  bind_DSU(m);
 }
