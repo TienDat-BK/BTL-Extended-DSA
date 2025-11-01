@@ -9,7 +9,7 @@ void bind_search(py::module_ &m)
 {
     py::class_<LSHSearch>(m, "LSHSearch")
         .def(py::init<>())
-        .def_static("jarcardSimilarity", &LSHSearch::jarcardSimilarity)
+        .def_static("jarcardDistance", &LSHSearch::jarcardDistance)
         .def_static("hammingDistance", &LSHSearch::hammingDistance)
         .def("classifyByBand", &LSHSearch::classifyByBand)
         .def("classify", &LSHSearch::classify)
