@@ -5,7 +5,7 @@ class MinHashDetection:
     def __init__(self):
         self.preprocessor = Shingling()
         self.hasher = MinHash()
-        self.searcher = Search()
+        self.searcher = LSHSearch()
         self.searcher.setDisFunc("hamming")
         self.outputDim = 64
 

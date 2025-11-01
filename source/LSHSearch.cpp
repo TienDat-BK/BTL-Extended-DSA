@@ -1,6 +1,6 @@
-#include "../header/ISearch.hpp"
+#include "../header/LSHSearch.hpp"
 
-double Search::hammingDistance(const VectorRecord &vec1, const VectorRecord &vec2)
+double LSHSearch::hammingDistance(const VectorRecord &vec1, const VectorRecord &vec2)
 {
 
     vector<double> a = vec1.vec;
@@ -16,7 +16,7 @@ double Search::hammingDistance(const VectorRecord &vec1, const VectorRecord &vec
     return dis / dim;
 }
 
-double Search::jarcardSimilarity(const VectorRecord &vec1, const VectorRecord &vec2)
+double LSHSearch::jarcardSimilarity(const VectorRecord &vec1, const VectorRecord &vec2)
 {
 
     set<double> s1(vec1.vec.begin(), vec1.vec.end());
@@ -31,7 +31,7 @@ double Search::jarcardSimilarity(const VectorRecord &vec1, const VectorRecord &v
     return 1 - (double)inter.size() / uni.size();
 }
 
-vector<double> Search::getband(VectorRecord vec, int band_index, int band_size)
+vector<double> LSHSearch::getband(VectorRecord vec, int band_index, int band_size)
 {
     vector<double> band;
     size_t start = band_index * band_size;
@@ -48,7 +48,7 @@ vector<double> Search::getband(VectorRecord vec, int band_index, int band_size)
     return band;
 }
 
-size_t Search::bandHash::operator()(const vector<double> &band) const
+size_t LSHSearch::bandHash::operator()(const vector<double> &band) const
 {
     size_t seed = band.size();
     for (const auto &val : band)
@@ -58,7 +58,7 @@ size_t Search::bandHash::operator()(const vector<double> &band) const
     return seed;
 }
 
-size_t Search::pairHash::operator()(const pair<int, int> &p) const
+size_t LSHSearch::pairHash::operator()(const pair<int, int> &p) const
 {
     size_t seed = 0;
     seed ^= std::hash<int>()(p.first) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
@@ -66,7 +66,7 @@ size_t Search::pairHash::operator()(const pair<int, int> &p) const
     return seed;
 }
 
-vector<vector<VectorRecord>> Search::classifyByBand(vector<VectorRecord> setOfVecRecord)
+vector<vector<VectorRecord>> LSHSearch::classifyByBand(vector<VectorRecord> setOfVecRecord)
 {
     int dim = setOfVecRecord[0].vec.size();
     cout << "Classify by band with " << setOfVecRecord.size() << " vectors, each of dimension " << setOfVecRecord[0].vec.size() << ", using " << this->num_bands << " bands." << endl;
@@ -140,7 +140,7 @@ vector<vector<VectorRecord>> Search::classifyByBand(vector<VectorRecord> setOfVe
     return result;
 }
 
-vector<vector<VectorRecord>> Search::classify(vector<VectorRecord> setOfVec)
+vector<vector<VectorRecord>> LSHSearch::classify(vector<VectorRecord> setOfVec)
 {
     // Sử dụng hàm classifyByBand để phân loại
     return classifyByBand(setOfVec);

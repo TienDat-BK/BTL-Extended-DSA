@@ -4,7 +4,7 @@
 #include "VectorRecord.hpp"
 using namespace std;
 
-class Search
+class LSHSearch
 {
 
 public:
@@ -42,9 +42,9 @@ public:
     void setDisFunc(string nameDisFunc)
     {
         if (nameDisFunc == "jarcard")
-            this->disFunc = &Search::jarcardSimilarity;
+            this->disFunc = &LSHSearch::jarcardSimilarity;
         else if (nameDisFunc == "hamming")
-            this->disFunc = &Search::hammingDistance;
+            this->disFunc = &LSHSearch::hammingDistance;
         else
             throw invalid_argument("Invalid distance function name");
     }
