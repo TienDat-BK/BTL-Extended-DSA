@@ -31,7 +31,7 @@ double LSHSearch::jarcardDistance(const VectorRecord &vec1, const VectorRecord &
     return 1 - (double)inter.size() / uni.size();
 }
 
-pair<vector<double>::iterator, vector<double>::iterator> LSHSearch::getband(const VectorRecord &vec, int band_index, int band_size)
+pair<const vector<double>::iterator, const vector<double>::iterator> LSHSearch::getband(const VectorRecord &vec, int band_index, int band_size)
 {
     // trả về iterator của band thứ band_index
 
