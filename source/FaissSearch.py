@@ -33,7 +33,7 @@ class FaissSearch:
 
                 # Nếu độ tương đồng vượt ngưỡng -> gộp nhóm
                 if sim > self.threshold:
-                    dsu.union(i, j)
+                    dsu.unionSet(i, j)
 
         groups_idx = dsu.getGroups()
         groups = [[setOfVecRecord[i] for i in group] for group in groups_idx if group]
