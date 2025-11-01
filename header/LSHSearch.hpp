@@ -40,7 +40,7 @@ public:
                  └─> move setOfVecRecord[idx] vào groupVecRecords
                         └─> move groupVecRecords vào result
     */
-    vector<vector<VectorRecord>> classifyByBand(vector<VectorRecord>);
+    vector<vector<VectorRecord>> classifyByBand(const vector<VectorRecord> &);
 
 public:
     static double jarcardDistance(const VectorRecord &, const VectorRecord &); // MinHash
@@ -56,6 +56,6 @@ public:
             throw invalid_argument("Invalid distance function name");
     }
 
-    vector<vector<VectorRecord>> classify(vector<VectorRecord> setOfVec);
+    vector<vector<VectorRecord>> classify(const vector<VectorRecord> &setOfVec);
     // vector<vector<VectorRecord>> classify(vector<vector<double>>);
 };
