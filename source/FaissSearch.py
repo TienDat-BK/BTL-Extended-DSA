@@ -17,6 +17,7 @@ class FaissSearch:
         # Thêm các VectorRecord vào faiss
         n = len(setOfVecRecord)
         vecs = np.stack([v.vec for v in setOfVecRecord]).astype("float32")
+        vecs = vecs / np.linalg.norm(vecs, axis=1, keepdims=True)
         self.index.reset()
         self.index.add(vecs)
 
