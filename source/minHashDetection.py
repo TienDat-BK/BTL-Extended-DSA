@@ -6,7 +6,7 @@ class MinHashDetection:
         self.preprocessor = Shingling()
         self.hasher = MinHash()
         self.searcher = LSHSearch()
-        self.searcher.setDisFunc("hamming")
+        self.searcher.setDisFunc("jarcard")
         self.outputDim = 64
 
     def detect(self, ListOfText : list ):
