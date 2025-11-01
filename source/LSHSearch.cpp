@@ -90,7 +90,7 @@ vector<vector<VectorRecord>> LSHSearch::classifyByBand(const vector<VectorRecord
 
     // STEP 1 : Băm các Band và đánh dấu các VecRecord chung Band
     int vecCnt = 0;
-    for (VectorRecord &vecRecord : setOfVecRecord)
+    for (const VectorRecord &vecRecord : setOfVecRecord)
     {
         for (int i = 0; i < this->num_bands; i++)
         {
@@ -150,7 +150,7 @@ vector<vector<VectorRecord>> LSHSearch::classifyByBand(const vector<VectorRecord
     return result;
 }
 
-vector<vector<VectorRecord>> LSHSearch::classify(vector<VectorRecord> setOfVec)
+vector<vector<VectorRecord>> LSHSearch::classify(const vector<VectorRecord> &setOfVec)
 {
     // Sử dụng hàm classifyByBand để phân loại
     return classifyByBand(setOfVec);
