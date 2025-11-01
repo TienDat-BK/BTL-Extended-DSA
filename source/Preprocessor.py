@@ -4,16 +4,19 @@ from sentence_transformers import SentenceTransformer
 from ftfy import fix_text
 import re
 
+# Chuẩn hóa văn bản
+def normalizing(text: str):
+        text = fix_text(text)
+        text = re.sub(r"\s+", " ", text).strip()
+        text = text.lower()
+        return text
+
 class Shingling:
   def __init__(self, k : int = 5):
     self.k = k
     
 
-  def normalizing(seft, text: str):
-        text = fix_text(text)
-        text = re.sub(r"\s+", " ", text).strip()
-        text = text.lower()
-        return text
+  
 
   def shingle(self, text : str):
     text = normalizing(text)
@@ -48,6 +51,9 @@ class TextEmbedder:
 
   def preprocessing(self, texts : list):
         # input list(string) - output list(VectorRecord)
+        # chuẩn hóa văn bản
+        texts = [normalizing(t) for t in texts]
+
         embeddings = self.model.encode(texts)   #O(n)    n là tổng độ dài toàn bộ văn bản
         listVecRecord = [VectorRecord(vec = emb, id = id ) for id, emb in enumerate(embeddings)]   #O(m)
 
