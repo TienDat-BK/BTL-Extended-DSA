@@ -3,8 +3,8 @@
 double LSHSearch::hammingDistance(const VectorRecord &vec1, const VectorRecord &vec2)
 {
 
-    vector<double> a = vec1.vec;
-    vector<double> b = vec2.vec;
+    auto &a = vec1.vec;
+    auto &b = vec2.vec;
     int dim = a.size();
     double epsilon = 1e-9;
     double dis = 0;
@@ -16,7 +16,7 @@ double LSHSearch::hammingDistance(const VectorRecord &vec1, const VectorRecord &
     return dis / dim;
 }
 
-double LSHSearch::jarcardSimilarity(const VectorRecord &vec1, const VectorRecord &vec2)
+double LSHSearch::jarcardDistance(const VectorRecord &vec1, const VectorRecord &vec2)
 {
 
     set<double> s1(vec1.vec.begin(), vec1.vec.end());
@@ -31,9 +31,10 @@ double LSHSearch::jarcardSimilarity(const VectorRecord &vec1, const VectorRecord
     return 1 - (double)inter.size() / uni.size();
 }
 
-vector<double> LSHSearch::getband(VectorRecord vec, int band_index, int band_size)
+pair<vector<double>::iterator, vector<double>::iterator> LSHSearch::getband(VectorRecord &vec, int band_index, int band_size)
 {
-    vector<double> band;
+    // trả về iterator của band thứ band_index
+
     size_t start = band_index * band_size;
     size_t end = start + band_size;
     // nếu band cuối cùng không đủ band_size thì lấy hết phần còn lại
@@ -44,15 +45,18 @@ vector<double> LSHSearch::getband(VectorRecord vec, int band_index, int band_siz
     if (start >= vec.vec.size())
         throw invalid_argument("Band index out of range");
 
-    band.insert(band.end(), vec.vec.begin() + start, vec.vec.begin() + end);
-    return band;
+    if (end > vec.vec.size())
+        end = vec.vec.size();
+
+    return {vec.vec.begin() + start, vec.vec.begin() + end};
 }
 
-size_t LSHSearch::bandHash::operator()(const vector<double> &band) const
+size_t LSHSearch::bandHash::operator()(vector<double>::iterator bandStart, vector<double>::iterator bandEnd) const
 {
-    size_t seed = band.size();
-    for (const auto &val : band)
+    size_t seed = bandEnd - bandStart;
+    for (auto it = bandStart; it != bandEnd; ++it)
     {
+        double val = *it;
         seed ^= std::hash<double>()(val) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
     }
     return seed;
@@ -71,6 +75,8 @@ vector<vector<VectorRecord>> LSHSearch::classifyByBand(vector<VectorRecord> setO
     int dim = setOfVecRecord[0].vec.size();
     cout << "Classify by band with " << setOfVecRecord.size() << " vectors, each of dimension " << setOfVecRecord[0].vec.size() << ", using " << this->num_bands << " bands." << endl;
 
+    this->num_bands = dim / bandSize + (dim % bandSize != 0 ? 1 : 0);
+
     // kiểm tra tính hợp lệ của tham số
     if (this->num_bands > dim)
         throw invalid_argument("Number of bands exceeds vector dimension");
@@ -88,8 +94,8 @@ vector<vector<VectorRecord>> LSHSearch::classifyByBand(vector<VectorRecord> setO
     {
         for (int i = 0; i < this->num_bands; i++)
         {
-            auto band = this->getband(vecRecord, i, dim / this->num_bands);
-            auto valueBandHash = bandHasher(band);
+            auto [bandStart, bandEnd] = this->getband(vecRecord, i, dim / this->num_bands);
+            auto valueBandHash = bandHasher(bandStart, bandEnd);
             setOfBucket[i][valueBandHash].push_back(vecCnt);
         }
         vecCnt++;

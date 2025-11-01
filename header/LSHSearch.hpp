@@ -10,14 +10,16 @@ class LSHSearch
 public:
     // double (*disFunc)(const VectorRecord &, const VectorRecord &) = &Search::hammingDistance; // con trỏ hàm tính khoảng cách ( jarcard, hamming,... sẽ đc dùng ở các class con)
     function<double(const VectorRecord &, const VectorRecord &)> disFunc;
-    int num_bands = 32;     // số bands
+    int bandSize = 4;   // kích thước mỗi band
+    int num_bands = -1; // số band
+
     double threshold = 0.4; // ngưỡng để quyết định 2 vecRecord có cùng nhóm hay không
 private:
-    vector<double> getband(VectorRecord, int, int); // lấy band thứ i trong b bands
+    pair<vector<double>::iterator, vector<double>::iterator> getband(VectorRecord &, int, int); // trả về iterator của band thứ band_index
 
     struct bandHash
     {
-        size_t operator()(const vector<double> &band) const;
+        size_t operator()(vector<double>::iterator bandStart, vector<double>::iterator bandEnd) const;
     };
 
     struct pairHash
@@ -36,13 +38,13 @@ public:
     vector<vector<VectorRecord>> classifyByBand(vector<VectorRecord>);
 
 public:
-    static double jarcardSimilarity(const VectorRecord &, const VectorRecord &); // MinHash
-    static double hammingDistance(const VectorRecord &, const VectorRecord &);   // SimHash
+    static double jarcardDistance(const VectorRecord &, const VectorRecord &); // MinHash
+    static double hammingDistance(const VectorRecord &, const VectorRecord &); // SimHash
 
     void setDisFunc(string nameDisFunc)
     {
         if (nameDisFunc == "jarcard")
-            this->disFunc = &LSHSearch::jarcardSimilarity;
+            this->disFunc = &LSHSearch::jarcardDistance;
         else if (nameDisFunc == "hamming")
             this->disFunc = &LSHSearch::hammingDistance;
         else
