@@ -140,10 +140,12 @@ def duplication_text(filepath : str, method : str):
     """
 
     # chỉ hiển thị nhóm có 2 item trở lên
+    cnt = 0
     for id, group in enumerate(ans):
         if len(group) < 2:
             continue
-        html1 += f"<h3 style='color:#0af'>Group {id} ({len(group)} items)</h3><ul>"
+        cnt += 1
+        html1 += f"<h3 style='color:#0af'>Group {cnt} ({len(group)} items)</h3><ul>"
         for para in group:
             html1 += f"<li><b>Paragraph {para.id}</b>: {paragraphs[para.id][:300]}...</li>"
         html1 += "</ul>"
@@ -195,5 +197,5 @@ with gr.Blocks(title="Duplicate Text Detector") as demo:
         outputs=[html_output_1, html_output_2, file_output]
     )
     
-port = int(os.environ.get("PORT", 10000))  # Render cung cấp PORT, fallback 10000 khi chạy local
-demo.launch()
+port = int(os.environ.get("PORT", 7860))  # Render cung cấp PORT, fallback 7860 khi chạy local
+demo.launch(server_name="0.0.0.0", server_port=port)
