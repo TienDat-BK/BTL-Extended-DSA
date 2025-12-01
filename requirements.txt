@@ -1,0 +1,6 @@
+numpy
+sentence_transformers
+ftfy
+faiss-cpu
+pandas
+mmh3

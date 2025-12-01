@@ -4,11 +4,15 @@ from source.Preprocessor import Shingling, TextEmbedder
 class MinHashDetection:
     def __init__(self):
         self.preprocessor = Shingling()
+
         self.hasher = MinHash()
-        self.searcher = LSHSearch()
-        self.searcher.setDisFunc("jarcard")
         self.outputDim = 64
 
+        self.searcher = LSHSearch()
+        self.searcher.bandSize = 2
+        
+        self.searcher.setDisFunc("jarcard")
+        self.searcher.threshold = 0.35625
     def detect(self, ListOfText : list ):
         ListOfVecRecord = self.preprocessor(ListOfText)  
 
