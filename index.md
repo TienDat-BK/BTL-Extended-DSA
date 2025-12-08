@@ -25,7 +25,7 @@ graph LR
     D --> E["Search Similarity: LSH/Faiss"]
     E --> F[Output Documents]
 ```
-### Cấu trúc
+### Cu trúc
 
 ``` mermaid
 graph TD

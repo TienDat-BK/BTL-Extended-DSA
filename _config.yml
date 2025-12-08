@@ -1,5 +1,5 @@
 title: "Duplication Text"
 description: "Detect duplicate text using Hashing & Embedding"
-theme: "just-the-docs"
+theme: jekyll-theme-minimal   # <-- đổi ở đây
 show_download: false
 logo: ""
