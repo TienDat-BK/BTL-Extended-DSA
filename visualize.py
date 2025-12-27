@@ -27,7 +27,7 @@ def read_file(filepath):
     elif ext == ".txt":
       with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
-      paragraphs = [p.strip() for p in content.split("\n\n") if p.strip()]
+      paragraphs = [p.strip() for p in re.split(r"\n\s*\n", content) if p.strip()]
     elif ext == ".csv":
       table = pd.read_csv(filepath)
       data_cols = ["content", "text", "paragraph"]
